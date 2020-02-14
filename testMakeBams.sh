@@ -17,7 +17,7 @@ cat ${workDir}/gidWells.txt
 cat ${workDir}/gid.txt
 cat ${workDir}/wells.txt
 
-head -2 ${workDir}/gidWells.txt > ${workDir}/test.txt
+# head -2 ${workDir}/gidWells.txt > ${workDir}/test.txt
 
 while read f; do
 	newf="${f##*/}"
@@ -30,4 +30,4 @@ while read g; do
 	samtools view -b -q ${mapq} -@${nC} ${bamDir}/${g}_L001_aln.sam > ${bamDir}/${g}_L001_mapq${mapq}.bam
 	samtools view -b -q ${mapq} -@${nC} ${bamDir}/${g}_L002_aln.sam > ${bamDir}/${g}_L002_mapq${mapq}.bam
 	rm ${bamDir}/${g}_L001_aln.sam ${bamDir}/${g}_L002_aln.sam
-done < ${workDir}/test.txt
+done < ${workDir}/gidWells.txt
