@@ -1,9 +1,9 @@
 cd /workdir/ns722/
 nC=40
 mapq=20
-# genome="/local/rdata/dbgap_robbins/alfalfa3a.2/3a.2-bionano+unscaffolded-assembly.fa"
+genome="/local/rdata/dbgap_robbins/alfalfa3a.2/3a.2-bionano+unscaffolded-assembly.fa"
 # using just the first 978 scaffolds, as they appear to be the main genome sequence. Wrote Andrew Farmer email to confirm
-genome="/local/rdata/dbgap_robbins/alfalfaMainGenome/3a.2-bionano+unscaffolded-assembly_1to978.fa"
+# genome="/local/rdata/dbgap_robbins/alfalfaMainGenome/3a.2-bionano+unscaffolded-assembly_1to978.fa" #god dammit!!!!!!!!!!!!!!!!!!!!!!!!!! I accidently called to this genome. FML!
 workDir=alfalfaBioinfo/alfalfaWorkdir
 seqDir=alfalfaNovaSeq
 bamDir=alfalfaBamsMerged/combinedReps
