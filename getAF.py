@@ -69,6 +69,7 @@ with open(infile) as f:
 		# else:
 			# print("this line is useless!", line)
 
+info.close()
 freq.close()
 count.close()
 
