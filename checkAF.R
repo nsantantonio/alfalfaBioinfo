@@ -1,6 +1,5 @@
 # counts <- readLines("totCounts.txt")
 # freqs <- readLines("refFreqs.txt")
-
 counts <- readLines("align1to978_totCounts.txt")
 freqs <- readLines("align1to978_refFreqs.txt")
 
@@ -18,8 +17,10 @@ countTab <- do.call(rbind, lapply(strsplit(counts[-1], " "), as.numeric))
 colnames(countTab) <- gsub("_.*", "", countH[[1]])
 
 
+
+
 totalCounts <- c(countTab)
-hist(totalCounts, col = "gray")
+# hist(totalCounts, col = "gray")
 
 totCountByLine <- colSums(countTab)
 totCountByLine / max(totCountByLine)
@@ -27,9 +28,11 @@ totCountByLine / max(totCountByLine)
 
 avgCount <- rowMeans(countTab)
 mean(avgCount)
-avgCount > 20
+# avgCount > 20
 
+library(txtplot)
 txtdensity(avgCount)
+txtdensity(avgCount[avgCount < 60])
 
 # dens <- list()
 # for(i in 1:ncol(countTab)) dens[[i]] <- density(countTab[, i])
@@ -53,7 +56,8 @@ txtdensity(avgCount)
 inRange20 <- countTab >= 20
 allInRange20 <- apply(inRange20, 1, all)
 
-sum(allInRange20 & avgCount > 10 & avgCount < 50)
+# sum(allInRange20 & avgCount > 10 & avgCount < 50)
+# sum(allInRange20 & avgCount > 20 & avgCount < 50)
 
 keep <- allInRange20 & avgCount < 50
 sum(keep)
@@ -63,7 +67,27 @@ nSites20 <- sum(allInRange20)
 print(nSites20)
 
 
+info <- readLines("align1to978_namePos.txt")
+keepinfo <- info[keep]
+keepInfoTab <- do.call(rbind, strsplit(keepinfo, " "))
+colnames(keepInfoTab) <- c("CHROM", "POS", "ID", "REF", "ALT")
 
+keepCountTab <- countTab[keep,]
+keepFreqTab <- freqTab[keep,]
+
+
+
+head(keepInfoTab)
+head(keepCountTab)
+head(keepFreqTab)
+
+dim(keepInfoTab)
+dim(keepCountTab)
+dim(keepFreqTab)
+
+
+
+save(keepInfoTab, keepFreqTab, keepCountTab, file = "avgCountless50.RData")
 # inRange <- countTab >= 30 & countTab <= 70
 # allInRange <- apply(inRange, 1, all)
 
