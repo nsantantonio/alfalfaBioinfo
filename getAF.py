@@ -1,15 +1,24 @@
 import sys
 import re
+import argparse
 
-# line = "##contig=<ID=scaffold941|size354645|quiver,length=355866>"
-# line = "scaffold45|size1037999|quiver   167436  .       C       A       5.76485 .       DP=13;VDB=0.78;SGB=-2.48712;RPB=0.85;MQB=0.1;MQSB=0.594978;BQB=0.9;MQ0F=0;ICB=0.5;HOB=0.5;AC=2;AN=4;DP4=4,6,0,2;MQ=55   GT:PL:AD  0/1:31,0,31:1,1  0/1:7,0,219:9,1"
+parser = argparse.ArgumentParser(description='Calculate allele frequencies from vcf')
+parser.add_argument("-f", '--infile', type=str, help='vcf file name')
+parser.add_argument("-o", '--outdir', type=str, default = "", help='output directory and file prefix')
+args = parser.parse_args()
+
+infile = args.infile
+outdir = args.outdir
+# line = "Super-Scaffold_1        1802    .       G       C       4.06312 .       DP=2;SGB=-0.0106344;MQ0F=0;AC=2;AN=2;DP4=0,0,1,0;MQ=31  GT:PL:AD        ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0      ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0      1/1:25,3,0:0,1  ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0"
+# infile = "test/test.vcf"
+# outdir = ""
 
 # line = "Super-Scaffold_1        357018  .       C       T       180     .       DP=38;VDB=0.0278409;SGB=2.66165;RPB=0.67934;MQB=0.990262;MQSB=0.93828;BQB=0.714832;MQ0F=0;ICB=1;HOB=0.0798611;AC=5;AN=24;DP4=11,18,3,4;MQ=59       GT:PL:AD        ./.:0,0,0:0,0   0/0:0,3,37:1,0  0/0:0,3,37:1,0  ./.:0,0,0:0,0   ./.:0,0,0:0,0   ./.:0,0,0:0,0   0/1:51,0,65:2,1 ./.:0,0,0:0,0   ./.:0,0,0:0,0   0/0:0,3,25:1,0  0/0:0,3,37:1,0  1/1:105,9,0:0,3    ./.:0,0,0:0,0   0/1:67,6,0:0,2  ./.:0,0,0:0,0   0/0:0,3,37:1,0  ./.:0,0,0:0,0   ./.:0,0,0:0,0   0/0:0,9,92:3,0  ./.:0,0,0:0,0   0/0:0,39,255:13,0       0/1:19,0,134:5,1        ./.:0,0,0:0,0   0/0:0,3,37:1,0"
 # infile = "alfalfaVariantCalls/test.vcf"
 # outdir = ""
 
-infile = sys.argv[1]
-outdir = sys.argv[2]
+# infile = sys.argv[1]
+# outdir = sys.argv[2]
 
 
 infoCols = 8
@@ -29,6 +38,7 @@ def getAf(x):
 		r = [str(suma), str(a[0] / float(suma))]
 		# r = str(a[0] / float(suma))
 	return r
+
 
 with open(infile) as f:
 # with open('test.vcf') as f:
@@ -57,8 +67,11 @@ with open(infile) as f:
 		# if not li.startswith("#"):
 		if line:
 			scafPos = line.split()[0:5]
+			# x = line.split()[startIndCols+18]
 			cntaf = map(getAf, line.split()[startIndCols:])
-			# print(af)
+			# check if python 2 or 3
+			if (sys.version_info > (3, 0)):
+				cntaf = list(cntaf)
 			cnt = [el[0] for el in cntaf]
 			af = [el[1] for el in cntaf]
 			info.write(" ".join(scafPos) + "\n")
@@ -72,4 +85,6 @@ with open(infile) as f:
 info.close()
 freq.close()
 count.close()
+
+
 
