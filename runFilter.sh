@@ -1,0 +1,2 @@
+ python alfalfaBioinfo/filterVcf.py -f alfalfaVariantCalls/alignAll3a.2.call.vcf -o test/test_ --minCnt 20 --maxCnt 125 --minMean 20 --maxMean 75 --minTot 0 --maxTot 10000
+ python alfalfaBioinfo/filterVcf.py -f alfalfaVariantCalls/alignAll3a.2.call.vcf -o test/test_ --minCnt 0 --maxCnt 125 --minMean 20 --maxMean 75 --minTot 0 --maxTot 10000
