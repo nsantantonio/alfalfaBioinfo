@@ -1,6 +1,11 @@
+import time
+startTime = time.time()
+
 import sys
 import re
 import argparse
+
+
 
 parser = argparse.ArgumentParser(description='Calculate allele frequencies from vcf and filter based on min, mean and total read counts per site')
 parser.add_argument("-f", '--infile', type=str, help='vcf file name')
@@ -41,6 +46,7 @@ maxTot = args.maxTot
 
 infoCols = 8
 startIndCols = infoCols + 1
+infokeep = 6
 
 suffix = "_cnt" + str(minCnt) + "-" + str(maxCnt) + "_mean" + str(minMean) + "-" + str(maxMean) + "_tot" + str(minTot) + "-" + str(maxTot)
 
@@ -67,6 +73,7 @@ with open(infile) as f:
 # with open('test.vcf') as f:
 	for line in f:
 		if re.match("\\#CHROM.*", line):
+			infonames= line.split()[0:infokeep]
 			names = [re.sub('.*\\/|\\.bam', '', i) for i in line.split()[startIndCols:]]
 		line = line.split('#', 1)[0]
 		line = line.rstrip()
@@ -74,6 +81,7 @@ with open(infile) as f:
 			n = len(line.split()[startIndCols:])
 			break
 
+info.write(" ".join(infonames) + "\n")
 freq.write(" ".join(names) + "\n")
 count.write(" ".join(names) + "\n")
 
@@ -82,7 +90,7 @@ with open(infile) as f:
 		line = line.split('#', 1)[0]
 		line = line.rstrip()
 		if line:
-			scafPos = line.split()[0:5]
+			scafPos = line.split()[0:infokeep]
 			# x = line.split()[startIndCols+18]
 			cntaf = map(getAf, line.split()[startIndCols:])
 			# check if python 2 or 3
@@ -104,3 +112,14 @@ with open(infile) as f:
 info.close()
 freq.close()
 count.close()
+
+secs = time.time() - startTime
+if secs > 3600:
+	t = round(secs / 3600, 1)
+	print("Run time: %s hours" % (t))
+elif secs > 60:
+	t = round(secs / 60, 1)
+	print("Run time: %s minutes" % (t))
+else:
+	t = round(secs, 3)
+	print("Run time: %s seconds" % (t))
