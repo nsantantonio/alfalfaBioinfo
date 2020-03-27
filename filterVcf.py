@@ -73,14 +73,15 @@ with open(infile) as f:
 # with open('test.vcf') as f:
 	for line in f:
 		if re.match("\\#CHROM.*", line):
-			infonames= line.split()[0:infokeep]
+			infonames = line.split()[0:infokeep]
 			names = [re.sub('.*\\/|\\.bam', '', i) for i in line.split()[startIndCols:]]
 		line = line.split('#', 1)[0]
 		line = line.rstrip()
 		if line:
 			n = len(line.split()[startIndCols:])
 			break
-
+# print(infonames)
+infonames = 
 info.write(" ".join(infonames) + "\n")
 freq.write(" ".join(names) + "\n")
 count.write(" ".join(names) + "\n")
