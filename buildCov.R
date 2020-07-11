@@ -7,7 +7,11 @@ freq <- read.table(paste0(pardir, "alignAll_refFreqs_cnt20-125_mean20-75_tot0-10
 cnt <- read.table(paste0(pardir, "alignAll_totCounts_cnt20-125_mean20-75_tot0-10000.txt"), header = TRUE)
 
 
-# this was built in Dropbox/pairwiseFst/codis.R
+# this was built in Dropbox/pairwiseFst/codis.R, varified using results from Weir and Hill 2002
+
+# 4/23/2020: calc dominance by assuming HW equil, then use freq of exp hets in place of counts? Would have to assume number of indiviudals???
+
+
 calcFstLin <- function(altab, scale = FALSE){
 	one <- function(n) matrix(1, n, 1)
 	onet <- function(n) matrix(1, 1, n)
@@ -122,7 +126,7 @@ altCnt <- allCnt - refCnt
 
 
 useFreq <- meanFreq < 0.9 & meanFreq > 0.1
-
+sum(useFreq)
 
 useNames <- info[useFreq, ]
 a1 <- refCnt[useFreq, ]
@@ -148,10 +152,21 @@ B[lower.tri(B)] <- t(B)[lower.tri(B)]
 
 
 
-colnames(B) <- rownames(B) <- 
+colnames(B) <- rownames(B) <- colnames(a1)
 
 library(viridis)
 image(B[, nrow(B):1], col = magma(50))
+
+pdf("pairwiseFstHeatmap.pdf")
+par(oma = c(2, 2, 2, 2))
+# heatmap(B, col = magma(50), cexRow = 0.5, cexCol = 0.5)
+heatmap(B,  Colv = "Rowv", symm = TRUE, col = magma(50), cexRow = 0.5, cexCol = 0.5)
+dev.off()
+
+
+
+
+write.table(B, "pariwiseFstAlfalfa.txt", sep = "\t")
 
 # hetHW <- function(p) 2 * p*(1-p)
 
