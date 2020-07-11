@@ -166,7 +166,7 @@ dev.off()
 
 
 
-write.table(B, "pariwiseFstAlfalfa.txt", sep = "\t")
+write.table(B, "pairwiseFstAlfalfa.txt", sep = "\t")
 
 # hetHW <- function(p) 2 * p*(1-p)
 
