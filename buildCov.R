@@ -163,10 +163,25 @@ par(oma = c(2, 2, 2, 2))
 heatmap(B,  Colv = "Rowv", symm = TRUE, col = magma(50), cexRow = 0.5, cexCol = 0.5)
 dev.off()
 
-
-
-
 write.table(B, "pairwiseFstAlfalfa.txt", sep = "\t")
+
+
+
+# make covariance based on allele frequencies, scale diagonal to 1
+keepFreq <- allFreq[useFreq, ]
+dim(keepFreq)
+Kfreq <- cov(keepFreq)
+Kfreq <- Kfreq / mean(diag(Kfreq))
+
+
+pdf("covAlleleFreqHeatmap.pdf")
+par(oma = c(2, 2, 2, 2))
+# heatmap(B, col = magma(50), cexRow = 0.5, cexCol = 0.5)
+heatmap(Kfreq,  Colv = "Rowv", symm = TRUE, col = magma(50), cexRow = 0.5, cexCol = 0.5)
+dev.off()
+
+write.table(Kfreq, "covAlleleFreqAlfalfa.txt", sep = "\t")
+
 
 # hetHW <- function(p) 2 * p*(1-p)
 
