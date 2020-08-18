@@ -59,6 +59,9 @@ info <- info[goodQual, ]
 cnt <- cnt[goodQual, ]
 freq <- freq[goodQual, ]
 
+sum(goodQual)
+nrow(info)
+
 
 library(txtplot)
 parents <- c("African", "Chilean", "Flemish", "Indian", "Ladak", "Mfalcata", "Mvaria", "Peruvian", "Turkistan")
@@ -129,6 +132,7 @@ useFreq <- meanFreq < 0.9 & meanFreq > 0.1
 sum(useFreq)
 
 useNames <- info[useFreq, ]
+head(useNames)
 a1 <- refCnt[useFreq, ]
 a2 <- altCnt[useFreq, ]
 
