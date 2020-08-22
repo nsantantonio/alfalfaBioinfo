@@ -133,6 +133,12 @@ sum(useFreq)
 
 useNames <- info[useFreq, ]
 head(useNames)
+
+
+write.table(useNames, file = "filteredSitesAlfalfaDiversityPanel89908.txt")
+write.table(useNames[1:2], file = "filteredSiteChromPos89908.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+
+
 a1 <- refCnt[useFreq, ]
 a2 <- altCnt[useFreq, ]
 
