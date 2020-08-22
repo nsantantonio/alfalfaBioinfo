@@ -1,10 +1,11 @@
 # counts <- readLines("totCounts.txt")
 # freqs <- readLines("refFreqs.txt")
-counts <- readLines("align1to978_totCounts.txt")
-freqs <- readLines("align1to978_refFreqs.txt")
+
+project <- "test_"
 
 
-
+counts <- readLines(paste0(project, "totCounts.txt"))
+freqs <- readLines(paste0(project, "refFreqs.txt"))
 
 length(counts)
 
@@ -16,7 +17,7 @@ colnames(freqTab) <- gsub("_.*", "", freqH[[1]])
 countTab <- do.call(rbind, lapply(strsplit(counts[-1], " "), as.numeric))
 colnames(countTab) <- gsub("_.*", "", countH[[1]])
 
-
+head(countTab, 20)
 
 
 totalCounts <- c(countTab)
