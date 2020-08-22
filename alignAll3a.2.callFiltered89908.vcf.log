@@ -1,0 +1,17 @@
+
+VCFtools - 0.1.17
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf ../alfalfaVariantCalls/alignAll3a.2.call.vcf
+	--out alignAll3a.2.callFiltered89908.vcf
+	--positions filteredSiteChromPos89908.txt
+	--recode
+
+Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases">
+Warning: Expected at least 2 parts in INFO entry: ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases">
+After filtering, kept 24 out of 24 Individuals
+Outputting VCF file...
+After filtering, kept 90771 out of a possible 77688675 Sites
+Run Time = 211.00 seconds
