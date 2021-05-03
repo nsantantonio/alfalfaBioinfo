@@ -135,12 +135,48 @@ useNames <- info[useFreq, ]
 head(useNames)
 
 
+obsHybridFreq <- c("AfricanxMfalcata", "AfricanxPeruvian", "ChileanxMfalcata", "IndianxLadak", "MfalcataxPeruvian")
+predHybridFreq <- paste0(obsHybridFreq, "Est")
+
+filFreq <- allFreq[useFreq, ]
+
+plotFreqCor <- FALSE
+if(plotFreqCor)	pdf("alleleFreqCorrelations.pdf", width = 9, height = 6)
+	par(mfrow = c(2, 3), oma = c(4, 5, 0, 0), mar = c(1, 1, 1, 1))
+	corPredObsHybrid <- NULL
+	for(i in 1:length(obsHybridFreq)){
+		corPredObsHybrid[obsHybridFreq[i]] <- cor(filFreq[,obsHybridFreq[i]], filFreq[,predHybridFreq[i]])
+		plot(filFreq[,obsHybridFreq[i]], filFreq[,predHybridFreq[i]], xlab = paste0("Observed allele frequency", obsHybridFreq[i]), ylab = paste0("Predicted allele frequency", obsHybridFreq[i]), col = "#0000000D")
+
+	}
+if(plotFreqCor) dev.off()
+
+
+cor(filFreq[,"Chilean"], filFreq[,"ChileanSeedInc"])
+cor(filFreq[,"Mfalcata"], filFreq[,"MfalcataSeedInc"])
+
+Rho <- cor(filFreq)
+mean(Rho[lower.tri(Rho)])
+min(Rho[lower.tri(Rho)])
+max(Rho[lower.tri(Rho)])
+which(Rho == max(Rho[lower.tri(Rho)]), arr.ind = TRUE)
+# should plot site freq spectrum for every population!
+# could do on a sliding window across chromosomes too!
+pdf("alleleFreqDist.pdf", width = 9, height = 6) 
+# par(mfrow = c(2, 3), oma = c(4, 5, 0, 0), mar = c(1, 1, 1, 1))
+	hist(meanFreq[useFreq], xlim = 0:1, xlab = "Reference Allele Frequency", col = "gray", main = "Filtered Site Frequency Spectrum", xaxt = "n")
+	axis(1, at = seq(0,1,0.2))
+dev.off()
+
+
 write.table(useNames, file = "filteredSitesAlfalfaDiversityPanel89908.txt")
 write.table(useNames[1:2], file = "filteredSiteChromPos89908.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 
 a1 <- refCnt[useFreq, ]
 a2 <- altCnt[useFreq, ]
+
+colnames(a1)
 
 BiL <- list()
 BiiL <- list()
